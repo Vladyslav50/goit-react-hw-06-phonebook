@@ -1,11 +1,16 @@
-// import React, { Component } from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../../redux/contactsReducer';
 import css from '../App.module.css';
 import { nanoid } from 'nanoid';
 
-export function ContactForm({ addContact, globalContacts }) {
+export function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const dispatch = useDispatch();
+
+  const contacts = useSelector(state => state.contacts.contacts);
 
   const onInputChange = e => {
     const { name, value } = e.target;
@@ -30,8 +35,25 @@ export function ContactForm({ addContact, globalContacts }) {
       number: number,
       id: nanoid(),
     };
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} вже є в контактах.`);
+      return;
+    }
 
-    addContact(contactData);
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} вже є в контактах.`);
+      return;
+    }
+
+    dispatch(addContact(contactData));
     setName('');
     setNumber('');
   };

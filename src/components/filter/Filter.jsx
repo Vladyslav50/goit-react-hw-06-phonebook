@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 import css from '../App.module.css';
 
 export const Filter = ({ value, onChange }) => {
